@@ -1,0 +1,19 @@
+{
+  "unit": "ms",
+  "description": "Performance baselines for diff_lines benchmarks",
+  "notes": "50K uses direct Myers (no chunking), 100K/200K use chunked for efficiency",
+  "benchmarks": {
+    "diff_performance/50K_lines_10pct_change": {
+      "max_ms": 1000,
+      "comment": "Direct Myers algorithm, no chunking"
+    },
+    "diff_performance/100K_lines_10pct_change": {
+      "max_ms": 200,
+      "comment": "Chunked algorithm (50K chunks) - faster due to cache locality"
+    },
+    "diff_performance/200K_lines_10pct_change": {
+      "max_ms": 500,
+      "comment": "Chunked algorithm (50K chunks)"
+    }
+  }
+}

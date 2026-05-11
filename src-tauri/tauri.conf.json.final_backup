@@ -1,0 +1,35 @@
+{
+  "build": {
+    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "npm run dev",
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:5173"
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+
+    ]
+  },
+  "productName": "diff-core",
+  "mainBinaryName": "diff-core",
+  "version": "0.1.0",
+  "identifier": "com.tauri.diffcore",
+  "plugins": {},
+  "app": {
+    "windows": [
+      {
+        "fullscreen": false,
+        "height": 900,
+        "resizable": true,
+        "title": "diff-core",
+        "width": 1400,
+        "useHttpsScheme": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  }
+}

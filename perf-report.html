@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tauri Diff - Performance Trend Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .header {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        .header .meta {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .header .meta span {
+            margin-right: 20px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .stat-card h3 {
+            color: #667eea;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+        }
+        .stat-subtext {
+            color: #999;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+        .chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .chart-container h2 {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        canvas {
+            max-height: 400px;
+        }
+        .legend {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            font-size: 0.9em;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        .table-container h2 {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background: #f5f5f5;
+            font-weight: 600;
+            color: #333;
+        }
+        tr:hover {
+            background: #f9f9f9;
+        }
+        .trend-up {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .trend-down {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .trend-stable {
+            color: #95a5a6;
+        }
+        .footer {
+            text-align: center;
+            color: white;
+            font-size: 0.85em;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Performance Trend Report</h1>
+            <div class="meta">
+                <span>📅 Generated: 4/30/2026, 10:21:42 PM</span>
+                <span>📈 Records shown: 1 / 1</span>
+                <span>🔧 Benchmarks: 3</span>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            
+            <div class="stat-card">
+                <h3>100K_lines_10pct_change</h3>
+                <div class="stat-value">89.18ms</div>
+                <div class="stat-subtext">
+                    📉 0.0% vs previous
+                </div>
+                <div class="stat-subtext">
+                    Avg: 89.18ms ±0.00ms
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>200K_lines_10pct_change</h3>
+                <div class="stat-value">155.45ms</div>
+                <div class="stat-subtext">
+                    📉 0.0% vs previous
+                </div>
+                <div class="stat-subtext">
+                    Avg: 155.45ms ±0.00ms
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>50K_lines_10pct_change</h3>
+                <div class="stat-value">757.57ms</div>
+                <div class="stat-subtext">
+                    📉 0.0% vs previous
+                </div>
+                <div class="stat-subtext">
+                    Avg: 757.57ms ±0.00ms
+                </div>
+            </div>
+            
+        </div>
+
+        
+        <div class="chart-container">
+            <h2>diff_performance/100K_lines_10pct_change</h2>
+            <canvas id="chart-0"></canvas>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #667eea;"></div>
+                    Mean ± StdDev
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            const ctx = document.getElementById('chart-0').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ["1. 4/30/2026, 10:21\nfb17dd4"],
+                    datasets: [
+                        {
+                            label: 'Mean',
+                            data: [89.17887422401361],
+                            borderColor: '#667eea',
+                            backgroundColor: '#667eea20',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: '#667eea',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                        },
+                        {
+                            label: 'Min (Mean - StdDev)',
+                            data: [84.21153701892068],
+                            borderColor: '#667eea80',
+                            borderWidth: 1,
+                            borderDash: [5, 5],
+                            fill: false,
+                            pointRadius: 0,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Max (Mean + StdDev)',
+                            data: [94.14621142910654],
+                            borderColor: '#667eea80',
+                            borderWidth: 1,
+                            borderDash: [5, 5],
+                            fill: '-1',
+                            backgroundColor: '#667eea10',
+                            pointRadius: 0,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Time (ms)'
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+            
+        <div class="chart-container">
+            <h2>diff_performance/200K_lines_10pct_change</h2>
+            <canvas id="chart-1"></canvas>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #764ba2;"></div>
+                    Mean ± StdDev
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            const ctx = document.getElementById('chart-1').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ["1. 4/30/2026, 10:21\nfb17dd4"],
+                    datasets: [
+                        {
+                            label: 'Mean',
+                            data: [155.4455283113393],
+                            borderColor: '#764ba2',
+                            backgroundColor: '#764ba220',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: '#764ba2',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                        },
+                        {
+                            label: 'Min (Mean - StdDev)',
+                            data: [150.006307657232],
+                            borderColor: '#764ba280',
+                            borderWidth: 1,
+                            borderDash: [5, 5],
+                            fill: false,
+                            pointRadius: 0,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Max (Mean + StdDev)',
+                            data: [160.8847489654466],
+                            borderColor: '#764ba280',
+                            borderWidth: 1,
+                            borderDash: [5, 5],
+                            fill: '-1',
+                            backgroundColor: '#764ba210',
+                            pointRadius: 0,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Time (ms)'
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+            
+        <div class="chart-container">
+            <h2>diff_performance/50K_lines_10pct_change</h2>
+            <canvas id="chart-2"></canvas>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #f093fb;"></div>
+                    Mean ± StdDev
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            const ctx = document.getElementById('chart-2').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ["1. 4/30/2026, 10:21\nfb17dd4"],
+                    datasets: [
+                        {
+                            label: 'Mean',
+                            data: [757.5706219170635],
+                            borderColor: '#f093fb',
+                            backgroundColor: '#f093fb20',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: '#f093fb',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                        },
+                        {
+                            label: 'Min (Mean - StdDev)',
+                            data: [742.6705376048737],
+                            borderColor: '#f093fb80',
+                            borderWidth: 1,
+                            borderDash: [5, 5],
+                            fill: false,
+                            pointRadius: 0,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Max (Mean + StdDev)',
+                            data: [772.4707062292532],
+                            borderColor: '#f093fb80',
+                            borderWidth: 1,
+                            borderDash: [5, 5],
+                            fill: '-1',
+                            backgroundColor: '#f093fb10',
+                            pointRadius: 0,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Time (ms)'
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+            
+
+        <div class="table-container">
+            <h2>Latest Performance Data</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Benchmark</th>
+                        <th>Mean (ms)</th>
+                        <th>Median (ms)</th>
+                        <th>StdDev (ms)</th>
+                        <th>Samples</th>
+                        <th>Trend vs Prev</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <td>diff_performance/100K_lines_10pct_change</td>
+                        <td>89.18</td>
+                        <td>88.71</td>
+                        <td>4.97</td>
+                        <td>10</td>
+                        <td class="trend-stable">0.00%</td>
+                    </tr>
+                      
+                    <tr>
+                        <td>diff_performance/200K_lines_10pct_change</td>
+                        <td>155.45</td>
+                        <td>154.62</td>
+                        <td>5.44</td>
+                        <td>10</td>
+                        <td class="trend-stable">0.00%</td>
+                    </tr>
+                      
+                    <tr>
+                        <td>diff_performance/50K_lines_10pct_change</td>
+                        <td>757.57</td>
+                        <td>749.44</td>
+                        <td>14.90</td>
+                        <td>10</td>
+                        <td class="trend-stable">0.00%</td>
+                    </tr>
+                      
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>Generated by Tauri Diff Performance Monitoring System</p>
+            <p>For more information, see <a href="https://github.com/yourusername/tauri-diff" style="color: inherit;">Project Repository</a></p>
+        </div>
+    </div>
+</body>
+</html>

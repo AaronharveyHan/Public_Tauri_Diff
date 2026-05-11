@@ -1,0 +1,69 @@
+{
+  "version": "1.0",
+  "description": "Performance history tracking for regression detection",
+  "schema": {
+    "timestamp": "ISO8601 date string",
+    "commit": "git commit hash (optional)",
+    "branch": "git branch name (optional)",
+    "results": {
+      "benchmark_name": {
+        "mean_ms": "mean execution time",
+        "median_ms": "median execution time",
+        "stddev_ms": "standard deviation",
+        "samples": "number of samples"
+      }
+    }
+  },
+  "records": [
+    {
+      "timestamp": "2026-04-30T14:21:02.070Z",
+      "commit": "fb17dd4",
+      "branch": "master",
+      "results": {
+        "diff_performance/50K_lines_10pct_change": {
+          "mean_ms": 757.5706219170635,
+          "median_ms": 749.4430680222223,
+          "stddev_ms": 14.900084312189676,
+          "samples": 10
+        },
+        "diff_performance/100K_lines_10pct_change": {
+          "mean_ms": 89.17887422401361,
+          "median_ms": 88.71152969285714,
+          "stddev_ms": 4.967337205092936,
+          "samples": 10
+        },
+        "diff_performance/200K_lines_10pct_change": {
+          "mean_ms": 155.4455283113393,
+          "median_ms": 154.6183638452381,
+          "stddev_ms": 5.439220654107278,
+          "samples": 10
+        }
+      }
+    },
+    {
+      "timestamp": "2026-04-30T14:24:14.055Z",
+      "commit": "fb17dd4",
+      "branch": "master",
+      "results": {
+        "diff_performance/50K_lines_10pct_change": {
+          "mean_ms": 757.5706219170635,
+          "median_ms": 749.4430680222223,
+          "stddev_ms": 14.900084312189676,
+          "samples": 10
+        },
+        "diff_performance/100K_lines_10pct_change": {
+          "mean_ms": 89.17887422401361,
+          "median_ms": 88.71152969285714,
+          "stddev_ms": 4.967337205092936,
+          "samples": 10
+        },
+        "diff_performance/200K_lines_10pct_change": {
+          "mean_ms": 155.4455283113393,
+          "median_ms": 154.6183638452381,
+          "stddev_ms": 5.439220654107278,
+          "samples": 10
+        }
+      }
+    }
+  ]
+}

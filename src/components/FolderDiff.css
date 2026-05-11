@@ -1,0 +1,263 @@
+/* FolderDiff.css - v0.7 Folder Comparison Component */
+
+.folder-diff-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  background: #0d1117;
+}
+
+.folder-diff-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.folder-diff-paths {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  font-size: 13px;
+  color: #c9d1d9;
+  overflow: hidden;
+}
+
+.folder-path {
+  padding: 4px 8px;
+  background: #161b22;
+  border-radius: 4px;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.folder-arrow {
+  color: #79c0ff;
+  font-weight: bold;
+}
+
+/* Tree View */
+.folder-diff-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: #0d1117;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.tree-node {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Directory Nodes */
+.tree-node.directory-node {
+  position: relative;
+}
+
+.directory-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  color: #c9d1d9;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s ease;
+}
+
+.directory-header:hover {
+  background: rgba(79, 97, 121, 0.2);
+}
+
+.directory-header .chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  margin-right: 2px;
+  border: none;
+  background: transparent;
+  color: #8b949e;
+  font-size: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.directory-header .chevron:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.directory-header .folder-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.directory-header .folder-name {
+  font-weight: 500;
+  color: #79c0ff;
+}
+
+.directory-header .summary-badge {
+  margin-left: 8px;
+  padding: 2px 6px;
+  background: rgba(79, 97, 121, 0.4);
+  border-radius: 3px;
+  font-size: 11px;
+  color: #8b949e;
+}
+
+.directory-children {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* File Nodes */
+.tree-node.file-node {
+  display: flex;
+  align-items: center;
+  padding: 2px 0;
+  color: #c9d1d9;
+}
+
+.file-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  padding: 4px 8px;
+  border: none;
+  background: transparent;
+  color: #c9d1d9;
+  font-size: 13px;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.file-link:hover {
+  background: rgba(79, 97, 121, 0.2);
+}
+
+.file-link .file-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.file-link .file-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #c9d1d9;
+}
+
+.file-link .status-badge {
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 500;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.file-link .file-size {
+  padding: 2px 6px;
+  background: rgba(79, 97, 121, 0.2);
+  border-radius: 3px;
+  font-size: 11px;
+  color: #8b949e;
+  flex-shrink: 0;
+}
+
+/* Status Badges */
+.status-badge.status-identical {
+  background: rgba(26, 88, 38, 0.5);
+  color: #3fb950;
+}
+
+.status-badge.status-modified {
+  background: rgba(88, 86, 24, 0.5);
+  color: #d29922;
+}
+
+.status-badge.status-added {
+  background: rgba(29, 78, 137, 0.5);
+  color: #79c0ff;
+}
+
+.status-badge.status-removed {
+  background: rgba(137, 29, 29, 0.5);
+  color: #f85149;
+}
+
+/* Error Message */
+.error-message {
+  padding: 8px 12px;
+  background: rgba(137, 29, 29, 0.2);
+  border: 1px solid rgba(248, 81, 73, 0.5);
+  border-radius: 4px;
+  color: #f85149;
+  font-size: 13px;
+}
+
+/* Button Styles (reuse from main styles) */
+.btn {
+  padding: 6px 12px;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  background: #161b22;
+  color: #c9d1d9;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.btn:hover {
+  background: #0d1117;
+  border-color: #30363d;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #238636;
+  border-color: #238636;
+  color: #ffffff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #2ea043;
+}
+
+.btn-secondary {
+  background: #161b22;
+  border-color: #30363d;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #0d1117;
+  border-color: #58a6ff;
+}
